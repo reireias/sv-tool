@@ -20,8 +20,8 @@ export class SubView {
         vertical: 'top',
       },
       rectangle: {
-        column: this.offsetCol,
-        row: this.offsetRow,
+        column: this.offsetCol + 2,
+        row: this.offsetRow + 1,
         width: -1,
         height: -1,
       },

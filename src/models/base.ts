@@ -5,7 +5,7 @@ export class Base {
     this.name = name;
   }
 
-  static from(name: string) {
+  static search(name: string) {
     return new Base(name);
   }
 }
