@@ -1,0 +1,28 @@
+name: main
+
+on: [push]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Pick deno version
+        id: deno
+        run: echo ::set-output name=deno_version::$(grep deno .tool-versions | awk '{print $2}')
+
+      - uses: denoland/setup-deno@v1
+        with:
+          deno-version: ${{ steps.tfenv.outputs.deno_version }}
+
+      - name: Check format
+        run: deno fmt --check
+
+      - name: Check lint
+        run: deno lint
+
+      - name: Run tests
+        run: deno test
+    
