@@ -1,9 +1,8 @@
 import { Pokemon } from '../models/pokemon.ts';
-import { crayon } from 'https://deno.land/x/crayon@3.3.2/mod.ts';
+// import { crayon } from 'https://deno.land/x/crayon@3.3.2/mod.ts';
 import { Tui } from 'https://deno.land/x/tui@1.3.3/mod.ts';
 import {
   LabelComponent,
-  TextboxComponent,
 } from 'https://deno.land/x/tui@1.3.3/src/components/mod.ts';
 
 export class SubView {
@@ -16,9 +15,9 @@ export class SubView {
   }
 
   draw(pokemon: Pokemon, tui: Tui) {
-    const label = new LabelComponent({
+    new LabelComponent({
       tui,
-      value: pokemon.name,
+      value: pokemon.base.name,
       align: {
         horizontal: 'left',
         vertical: 'top',
@@ -28,23 +27,6 @@ export class SubView {
         row: this.offsetRow + 1,
         width: -1,
         height: -1,
-      },
-    });
-    new TextboxComponent({
-      tui,
-      rectangle: {
-        column: this.offsetCol + 2,
-        row: this.offsetRow + 3,
-        width: 10,
-        height: 1,
-      },
-      theme: {
-        base: crayon.bgHex('#333333'),
-      },
-      keyboardHandler: (textbox) => {
-        return (keypress) => {
-          label.value = 'foo';
-        };
       },
     });
   }

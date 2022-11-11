@@ -3,5 +3,5 @@ import { Pokemon } from '../../src/models/pokemon.ts';
 
 Deno.test('search', () => {
   const pokemon = Pokemon.search('dummy');
-  assertEquals(pokemon.name, 'dummy');
+  assertEquals(pokemon.base.name, '未実装');
 });

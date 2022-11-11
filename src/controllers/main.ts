@@ -3,9 +3,12 @@ import { MainView } from '../views/main.ts';
 
 export function run() {
   const data = [];
-  for (let i = 0; i < 6; i++) {
-    data.push(Pokemon.search(`dummy${i}`));
-  }
+  data.push(Pokemon.search('145-0'));
+  data.push(Pokemon.search('145-0'));
+  data.push(Pokemon.search('145-0'));
+  data.push(Pokemon.search('145-0'));
+  data.push(Pokemon.search('145-0'));
+  data.push(Pokemon.search('145-0'));
 
   const view = new MainView();
   view.draw(data);
