@@ -5,6 +5,12 @@ import {
   LabelComponent,
 } from 'https://deno.land/x/tui@1.3.3/src/components/mod.ts';
 
+// display(8, 'foo', '100.0') -> 'foo:         100.0'
+const display = (max: number, name: string, val: string) => {
+  const space = (max - name.length) * 2 + 5 - val.length + 1;
+  return `${name}:${' '.repeat(space)}${val}`;
+};
+
 export class SubView {
   offsetCol: number;
   offsetRow: number;
@@ -43,36 +49,35 @@ export class SubView {
     this._label(tui, pokemon.base.name, 2, 1, -1, -1);
 
     // type
-    this._label(tui, pokemon.base.types.join(' '), 20, 1, -1, -1);
+    this._label(tui, pokemon.base.types.join(' '), 28, 1, -1, -1);
 
     // base
     this._label(tui, pokemon.base.base.join(' '), 2, 2, -1, -1);
 
+    // waza
+    const waza = pokemon.statistics.waza.map((v) => display(8, v.name, v.val))
+      .join('\n');
+    this._label(tui, waza, 2, 4, 30, 10);
+
+    // tokusei
+    const tokusei = pokemon.statistics.tokusei.map((v) =>
+      display(8, v.name, v.val)
+    ).join('\n');
+    this._label(tui, tokusei, 28, 4, 30, 10);
+
+    // seikaku
+    const seikaku = pokemon.statistics.seikaku.map((v) =>
+      display(5, v.name, v.val)
+    ).join('\n');
+    this._label(tui, seikaku, 54, 4, 30, 10);
+
+    // motimono
+    const motimono = pokemon.statistics.motimono.map((v) =>
+      display(8, v.name, v.val)
+    ).join('\n');
+    this._label(tui, motimono, 74, 4, 30, 10);
+
     // debug
-    this._label(tui, JSON.stringify(pokemon.statistics.waza), 2, 3, -1, -1);
-    this._label(
-      tui,
-      JSON.stringify(pokemon.statistics.seikaku),
-      2,
-      4,
-      -1,
-      -1,
-    );
-    this._label(
-      tui,
-      JSON.stringify(pokemon.statistics.tokusei),
-      2,
-      5,
-      -1,
-      -1,
-    );
-    this._label(
-      tui,
-      JSON.stringify(pokemon.statistics.motimono),
-      2,
-      6,
-      -1,
-      -1,
-    );
+    // this._label(tui, JSON.stringify(pokemon.statistics.waza), 2, 3, 30, -1);
   }
 }
