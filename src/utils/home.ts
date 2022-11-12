@@ -16,8 +16,8 @@ type Season = {
   rst: number;
   ts2: number;
 };
-type PdetailResponse = Record<string, Record<string, Statistics>>;
-type Statistics = {
+type PdetailResponse = Record<string, Record<string, Pdetail>>;
+export type Pdetail = {
   temoti: {
     waza: { id: string; val: string }[];
     tokusei: { id: string; val: string }[];
@@ -52,13 +52,32 @@ async function getCurrentSingleSeason(): Promise<[string, Season]> {
   throw new Error('No single battle season.');
 }
 
-async function getBattleData() {
+function filepath(prefix: string) {
+  const now = new Date();
+  return `./tmp/cache/${prefix}-${now.getFullYear()}-${
+    now.getMonth() + 1
+  }-${now.getDate()}.json`;
+}
+
+export async function initBattleData() {
+  cache = {};
+  const file = filepath('home');
+  // from local file
+  try {
+    const stat = await Deno.stat(file);
+    if (stat.isFile) {
+      cache = JSON.parse(await Deno.readTextFile(file));
+      return;
+    }
+  } catch {
+    // no
+  }
+  // from Pokemon Home
   const [seasonId, season] = await getCurrentSingleSeason();
   const headers = {
     'user-agent': UA,
     accept: 'application/json',
   };
-  cache = {};
   for (let i = 1; i <= 5; i++) {
     const url =
       `${POKE_BASE}/${seasonId}/${season.rst}/${season.ts2}/pdetail-${i}`;
@@ -66,14 +85,22 @@ async function getBattleData() {
     const json: PdetailResponse = JSON.parse(res);
     cache = Object.assign(cache, json);
   }
+  await Deno.writeTextFile(file, JSON.stringify(cache));
 }
 
-export async function statistics(
-  id: number,
-  form: number,
-): Promise<Statistics> {
+export function statistics(id: number, form: number): Pdetail {
   if (Object.keys(cache).length === 0) {
-    await getBattleData();
+    throw new Error('Not initialized.');
+  }
+  if (!cache[String(id)] || !cache[String(id)][String(form)]) {
+    return {
+      temoti: {
+        waza: [],
+        tokusei: [],
+        seikaku: [],
+        motimono: [],
+      },
+    };
   }
   return cache[String(id)][String(form)];
 }

@@ -14,20 +14,65 @@ export class SubView {
     this.offsetRow = offsetRow;
   }
 
-  draw(pokemon: Pokemon, tui: Tui) {
+  _label(
+    tui: Tui,
+    value: string,
+    column: number,
+    row: number,
+    width: number,
+    height: number,
+  ) {
     new LabelComponent({
       tui,
-      value: pokemon.base.name,
+      value,
       align: {
         horizontal: 'left',
         vertical: 'top',
       },
       rectangle: {
-        column: this.offsetCol + 2,
-        row: this.offsetRow + 1,
-        width: -1,
-        height: -1,
+        column: this.offsetCol + column,
+        row: this.offsetRow + row,
+        width,
+        height,
       },
     });
+  }
+
+  draw(pokemon: Pokemon, tui: Tui) {
+    // name
+    this._label(tui, pokemon.base.name, 2, 1, -1, -1);
+
+    // type
+    this._label(tui, pokemon.base.types.join(' '), 20, 1, -1, -1);
+
+    // base
+    this._label(tui, pokemon.base.base.join(' '), 2, 2, -1, -1);
+
+    // debug
+    this._label(tui, JSON.stringify(pokemon.statistics.waza), 2, 3, -1, -1);
+    this._label(
+      tui,
+      JSON.stringify(pokemon.statistics.seikaku),
+      2,
+      4,
+      -1,
+      -1,
+    );
+    this._label(
+      tui,
+      JSON.stringify(pokemon.statistics.tokusei),
+      2,
+      5,
+      -1,
+      -1,
+    );
+    this._label(
+      tui,
+      JSON.stringify(pokemon.statistics.motimono),
+      2,
+      6,
+      -1,
+      -1,
+    );
   }
 }

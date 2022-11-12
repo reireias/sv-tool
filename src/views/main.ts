@@ -16,7 +16,7 @@ export class MainView {
   draw(data: Pokemon[]) {
     const tui = new Tui({
       canvas: new Canvas({
-        refreshRate: 1000 / 60, // 60fps
+        refreshRate: 1000 / 10, // 10fps
         stdout: Deno.stdout,
       }),
     });
