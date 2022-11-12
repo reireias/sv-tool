@@ -1,6 +1,6 @@
 import { Pokemon } from '../models/pokemon.ts';
-// import { crayon } from 'https://deno.land/x/crayon@3.3.2/mod.ts';
-import { Tui } from 'https://deno.land/x/tui@1.3.3/mod.ts';
+import { crayon } from 'https://deno.land/x/crayon@3.3.2/mod.ts';
+import { Style, Tui } from 'https://deno.land/x/tui@1.3.3/mod.ts';
 import {
   LabelComponent,
 } from 'https://deno.land/x/tui@1.3.3/src/components/mod.ts';
@@ -9,6 +9,27 @@ import {
 const display = (max: number, name: string, val: string) => {
   const space = (max - name.length) * 2 + 5 - val.length + 1;
   return `${name}:${' '.repeat(space)}${val}`;
+};
+
+const typeToColor: Record<string, Style> = {
+  'ノーマル': crayon.bgHex('#aea886').bold,
+  'ほのお': crayon.bgHex('#f45c19').bold,
+  'みず': crayon.bgHex('#4a96d6').bold,
+  'くさ': crayon.bgHex('#28b25c').bold,
+  'でんき': crayon.bgHex('#eaa317').bold,
+  'こおり': crayon.bgHex('#45a9c0').bold,
+  'かくとう': crayon.bgHex('#9a3d3e').bold,
+  'どく': crayon.bgHex('#8f5b98').bold,
+  'じめん': crayon.bgHex('#916d3c').bold,
+  'ひこう': crayon.bgHex('#7e9ecf').bold,
+  'エスパー': crayon.bgHex('#d56d8b').bold,
+  'むし': crayon.bgHex('#989001').bold,
+  'いわ': crayon.bgHex('#878052').bold,
+  'ゴースト': crayon.bgHex('#555fa4').bold,
+  'ドラゴン': crayon.bgHex('#454ba6').bold,
+  'あく': crayon.bgHex('#7a0049').bold,
+  'はがね': crayon.bgHex('#9b9b9b').bold,
+  'フェアリー': crayon.bgHex('#ffbbff').bold,
 };
 
 export class SubView {
@@ -27,8 +48,9 @@ export class SubView {
     row: number,
     width: number,
     height: number,
+    style: Style | null = null,
   ) {
-    new LabelComponent({
+    const label = new LabelComponent({
       tui,
       value,
       align: {
@@ -42,6 +64,9 @@ export class SubView {
         height,
       },
     });
+    if (style) {
+      label.theme.base = style;
+    }
   }
 
   draw(pokemon: Pokemon, tui: Tui) {
@@ -49,7 +74,27 @@ export class SubView {
     this._label(tui, pokemon.base.name, 2, 1, -1, -1);
 
     // type
-    this._label(tui, pokemon.base.types.join(' '), 28, 1, -1, -1);
+    this._label(
+      tui,
+      ` ${pokemon.base.types[0]} `,
+      28,
+      1,
+      -1,
+      -1,
+      typeToColor[pokemon.base.types[0]],
+    );
+    if (pokemon.base.types.length > 1) {
+      const column = 28 + pokemon.base.types[0].length * 2 + 2 + 1;
+      this._label(
+        tui,
+        ` ${pokemon.base.types[1]} `,
+        column,
+        1,
+        -1,
+        -1,
+        typeToColor[pokemon.base.types[1]],
+      );
+    }
 
     // base
     this._label(tui, pokemon.base.base.join(' '), 2, 2, -1, -1);

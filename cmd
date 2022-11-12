@@ -8,4 +8,4 @@ for _ in $(seq 1 6); do
     ids+=("$id-0")
 done
 
-deno run --allow-net main.ts "${ids[@]}"
+deno run --allow-net --allow-write --allow-read main.ts "${ids[@]}"
