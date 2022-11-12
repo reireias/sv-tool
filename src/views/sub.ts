@@ -71,7 +71,7 @@ export class SubView {
 
   draw(pokemon: Pokemon, tui: Tui) {
     // name
-    this._label(tui, pokemon.base.name, 2, 1, -1, -1);
+    this._label(tui, pokemon.base.name, 2, 1, -1, -1, crayon.bold);
 
     // type
     this._label(
