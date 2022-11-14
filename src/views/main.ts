@@ -3,15 +3,11 @@ import { Pokemon } from '../models/pokemon.ts';
 import { SubView } from './sub.ts';
 import {
   Canvas,
-  handleKeyboardControls,
   handleKeypresses,
   handleMouseControls,
   Tui,
 } from 'https://deno.land/x/tui@1.3.3/mod.ts';
-import {
-  ButtonComponent,
-  LabelComponent,
-} from 'https://deno.land/x/tui@1.3.3/src/components/mod.ts';
+import { LabelComponent } from 'https://deno.land/x/tui@1.3.3/src/components/mod.ts';
 
 export class MainView {
   draw(data: Pokemon[]) {
@@ -30,18 +26,6 @@ export class MainView {
 
     handleKeypresses(tui);
     handleMouseControls(tui);
-    handleKeyboardControls(tui);
-
-    // suppress error when press Enter
-    new ButtonComponent({
-      tui,
-      rectangle: {
-        column: 0,
-        row: 0,
-        height: 0,
-        width: 0,
-      },
-    });
 
     data.forEach((pokemon, i) => {
       const offsetCol = width * (i % 2);
