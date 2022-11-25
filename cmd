@@ -3,7 +3,7 @@
 ids=()
 
 for _ in $(seq 1 6); do
-    selected=$(column -t -s, < src/constants/list.csv | fzf --preview-window hidden)
+    selected=$(grep -v -E ",0$" src/constants/list.csv | column -t -s, | fzf --preview-window hidden)
     id=$(echo "$selected" | awk '{ print $1 }')
     form=$(echo "$selected" | awk '{ print $4 }')
     # id - form format
