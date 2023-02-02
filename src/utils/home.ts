@@ -1,8 +1,8 @@
 import ky from 'https://cdn.skypack.dev/ky?dts';
 
 const SEASON_BASE =
-  'https://api.battle.pokemon-home.com/cbd/competition/rankmatch/list';
-const POKE_BASE = 'https://resource.pokemon-home.com/battledata/ranking';
+  'https://api.battle.pokemon-home.com/tt/cbd/competition/rankmatch/list';
+const POKE_BASE = 'https://resource.pokemon-home.com/battledata/ranking/scvi';
 const UA =
   'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.61 Mobile Safari/537.36';
 
@@ -23,6 +23,7 @@ export type Pdetail = {
     tokusei: { id: string; val: string }[];
     seikaku: { id: string; val: string }[];
     motimono: { id: string; val: string }[];
+    terastal: { id: string; val: string }[];
   };
 };
 
@@ -78,7 +79,7 @@ export async function initBattleData() {
     'user-agent': UA,
     accept: 'application/json',
   };
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 6; i++) {
     const url =
       `${POKE_BASE}/${seasonId}/${season.rst}/${season.ts2}/pdetail-${i}`;
     const res = await ky(url, { headers }).text();
@@ -99,6 +100,7 @@ export function statistics(id: number, form: number): Pdetail {
         tokusei: [],
         seikaku: [],
         motimono: [],
+        terastal: [],
       },
     };
   }

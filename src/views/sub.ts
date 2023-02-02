@@ -111,16 +111,23 @@ export class SubView {
     this._label(tui, tokusei, 28, 4, 30, 10);
 
     // seikaku
-    const seikaku = pokemon.statistics.seikaku.map((v) =>
-      display(5, v.name, v.val)
-    ).join('\n');
-    this._label(tui, seikaku, 54, 4, 30, 10);
+    // NOTE: seikaku data not found at SV
+    // const seikaku = pokemon.statistics.seikaku.map((v) =>
+    //   display(5, v.name, v.val)
+    // ).join('\n');
+    // this._label(tui, seikaku, 54, 4, 30, 10);
 
     // motimono
     const motimono = pokemon.statistics.motimono.map((v) =>
       display(8, v.name, v.val)
     ).join('\n');
-    this._label(tui, motimono, 74, 4, 30, 10);
+    this._label(tui, motimono, 54, 4, 30, 10);
+
+    // teras
+    const terastal = pokemon.statistics.terastal.map((v) =>
+      display(6, v.name, v.val)
+    ).join('\n');
+    this._label(tui, terastal, 80, 4, 30, 10);
 
     // debug
     // this._label(tui, JSON.stringify(pokemon.statistics.waza), 2, 3, 30, -1);
