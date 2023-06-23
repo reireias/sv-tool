@@ -10,6 +10,7 @@ Deno.test('Base', async (t) => {
         tokusei: [{ id: '1', val: '100' }],
         seikaku: [{ id: '0', val: '100' }],
         motimono: [{ id: '1', val: '100' }],
+        terastal: [{ id: '1', val: '100' }],
       },
     };
     const st = new Statistics(pdetail);
